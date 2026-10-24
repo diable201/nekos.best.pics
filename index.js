@@ -4,7 +4,7 @@ const got = require("got");
 
 const ENDPOINTS = require("./lib/endpoints.js");
 
-const API_URL = "https://api.waifu.pics";
+const API_URL = "https://nekos.best/api/v2";
 
 const app = express();
 
@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.get("/", (req, res) => {
   res.json({
-    message: "This is a simple server to get images from waifu.pics",
+    message: "This is a simple server to get images from nekos.best",
   });
 });
 
@@ -27,11 +27,11 @@ app.get("/:type/:endpoint", async (req, res) => {
     });
   }
   if (ENDPOINTS[type].includes(endpoint)) {
-    fetchImage(type, endpoint, res);
+    fetchImage(endpoint, res);
   } else if (endpoint === "random") {
     endpoint =
       ENDPOINTS[type][Math.floor(Math.random() * ENDPOINTS[type].length)];
-    fetchImage(type, endpoint, res);
+    fetchImage(endpoint, res);
   } else {
     res.status(400).json({
       message: "Bad endpoint",
@@ -39,14 +39,24 @@ app.get("/:type/:endpoint", async (req, res) => {
   }
 });
 
-async function fetchImage(type, endpoint, response) {
+async function fetchImage(endpoint, response) {
   try {
-    const { url } = await got(`${API_URL}/${type}/${endpoint}`).json();
+    const { results } = await got(`${API_URL}/${endpoint}`).json();
+    const { url } = results[0];
 
     got
       .stream(url)
-      .on("response", (response) => {
-        response.headers["cache-control"] = "no-cache";
+      .on("response", (upstream) => {
+        upstream.headers["cache-control"] = "no-cache";
+      })
+      .on("error", (error) => {
+        if (response.headersSent) {
+          response.destroy();
+        } else {
+          response.status(500).json({
+            message: error.message,
+          });
+        }
       })
       .pipe(response);
   } catch (error) {
