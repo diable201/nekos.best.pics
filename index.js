@@ -21,6 +21,11 @@ app.get("/:type/:endpoint", async (req, res) => {
   let endpoint = req.params.endpoint.toLocaleLowerCase();
   let type = req.params.type.toLocaleLowerCase();
   res.set("Cache-Control", "no-cache");
+  if (!Array.isArray(ENDPOINTS[type])) {
+    return res.status(400).json({
+      message: "Bad type",
+    });
+  }
   if (ENDPOINTS[type].includes(endpoint)) {
     fetchImage(type, endpoint, res);
   } else if (endpoint === "random") {
@@ -56,3 +61,5 @@ const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log("Server is listening in port" + PORT);
 });
+
+module.exports = app;
