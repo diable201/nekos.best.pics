@@ -1,29 +1,27 @@
-# Simple server for getting random images from [waifu.pics](https://waifu.pics/)
+# Simple server for getting random images from [nekos.best](https://nekos.best/)
 
-![](https://waifu.now.sh/sfw/random)
+Simple API wrapped around [nekos.best](https://nekos.best/) in order to be able to get random anime images for my markdown profile
 
-Simple API wrapped around @Waifu-pics in order to be able to get random anime images for my markdown profile
+> Originally built on top of waifu.pics, which is no longer available. Endpoints that nekos.best doesn't provide (including all NSFW ones) were removed.
 
-- [Simple server for redirecting to the images on waifu.pics](#simple-server-for-redirecting-to-the-images-on-waifupics)
+- [Simple server for getting random images from nekos.best](#simple-server-for-getting-random-images-from-nekosbest)
   - [API](#api)
   - [How to get an image](#how-to-get-an-image)
   - [How to use an image in Markdown](#how-to-use-an-image-in-markdown)
+  - [Deploy](#deploy)
 
 ## API
 
-Here are different endpoints for API requests. Endpoints can be updated by the author, so, please, check [official docs](https://waifu.pics/docs).
+Here are different endpoints for API requests. nekos.best categories can be updated by the author, so, please, check [official docs](https://docs.nekos.best/).
 
 ```javascript
 {
   sfw: [
     "waifu",
     "neko",
-    "shinobu",
-    "bully",
     "cry",
     "hug",
     "kiss",
-    "lick",
     "pat",
     "smug",
     "highfive",
@@ -33,29 +31,36 @@ Here are different endpoints for API requests. Endpoints can be updated by the a
     "wink",
     "poke",
     "dance",
-    "cringe",
     "blush",
+    "happy",
     "random"
   ],
-  nsfw: ["waifu", "neko", "trap", "blowjob","random"],
 }
 ```
 
-Live:  
-![](https://shot-my-url.herokuapp.com/?url=https://waifu.pics/api/endpoints)
+`random` returns an image from a random endpoint of the list.
 
 ## How to get an image
 
-| URL                                  | Request Type |
-| ------------------------------------ | ------------ |
-| `https://waifu.now.sh/type/endpoint` | **GET**      |
-
-![](https://waifu.now.sh/sfw/kiss)
+| URL                                       | Request Type |
+| ----------------------------------------- | ------------ |
+| `https://YOUR-APP.vercel.app/sfw/endpoint` | **GET**      |
 
 ## How to use an image in Markdown
 
 Just put the above url in typical Markdown syntax
 
 ```markdown
-![](https://waifu.now.sh/type/endpoint)
+![](https://YOUR-APP.vercel.app/sfw/endpoint)
+```
+
+## Deploy
+
+**Vercel** — import the repository at [vercel.com/new](https://vercel.com/new), the Express app is detected with zero configuration.
+
+**Docker**
+
+```bash
+docker build -t nekos-pics .
+docker run -d -p 8080:8080 nekos-pics
 ```
