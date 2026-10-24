@@ -1,5 +1,7 @@
 # Simple server for getting random images from [nekos.best](https://nekos.best/)
 
+![](https://diable201-anime.vercel.app/sfw/random)
+
 Simple API wrapped around [nekos.best](https://nekos.best/) in order to be able to get random anime images for my markdown profile
 
 > Originally built on top of waifu.pics, which is no longer available. Endpoints that nekos.best doesn't provide (including all NSFW ones) were removed.
@@ -42,16 +44,18 @@ Here are different endpoints for API requests. nekos.best categories can be upda
 
 ## How to get an image
 
-| URL                                       | Request Type |
-| ----------------------------------------- | ------------ |
-| `https://YOUR-APP.vercel.app/sfw/endpoint` | **GET**      |
+| URL                                               | Request Type |
+| ------------------------------------------------- | ------------ |
+| `https://diable201-anime.vercel.app/sfw/endpoint` | **GET**      |
+
+![](https://diable201-anime.vercel.app/sfw/kiss)
 
 ## How to use an image in Markdown
 
 Just put the above url in typical Markdown syntax
 
 ```markdown
-![](https://YOUR-APP.vercel.app/sfw/endpoint)
+![](https://diable201-anime.vercel.app/sfw/endpoint)
 ```
 
 ## Deploy
